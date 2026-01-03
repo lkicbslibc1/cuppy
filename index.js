@@ -13,9 +13,6 @@ const bakeryMenu = [
 
 ];
 
-// ----------------------
-// แยกเมนูยอดนิยม vs เมนูทั่วไป
-// ----------------------
 const popularMenu = bakeryMenu.filter(item => item.poppular === "yes");
 const normalMenu = bakeryMenu.filter(item => item.poppular !== "yes");
 
@@ -25,10 +22,8 @@ const normalMenu = bakeryMenu.filter(item => item.poppular !== "yes");
 let currentIndex = 0;
 const carousel = document.getElementById("product-carousel");
 
-// ให้ index หมุนไปเรื่อยๆ ไม่หลุด array
 const getIndex = (i) => (i + popularMenu.length) % popularMenu.length;
 
-// อัปเดต carousel
 function updateCarousel() {
     const isMobile = window.innerWidth <= 1024;
 
@@ -62,7 +57,6 @@ function updateCarousel() {
     });
 }
 
-// ปุ่ม next / prev
 function nextSlide() {
     currentIndex = getIndex(currentIndex + 1);
     updateCarousel();
@@ -86,8 +80,6 @@ function displayProducts(category) {
         : bakeryMenu.filter(item => item.category === category);
 
     grid.innerHTML = filtered.map((item, index) => {
-        // เพิ่มค่า delay โดยคำนวณจากลำดับ (index) 
-        // ใบแรก delay 0, ใบที่สอง 100ms, ใบที่สาม 200ms ไปเรื่อยๆ
         const delay = index * 100;
 
         return `
@@ -102,14 +94,11 @@ function displayProducts(category) {
         `;
     }).join('');
 
-    // สำคัญมาก: ต้องเรียก AOS.refresh() ทุกครั้งที่ HTML ถูกเปลี่ยนใหม่
-    // เพื่อให้ Library รู้จัก Element ที่เพิ่งสร้างขึ้นมา
     if (typeof AOS !== 'undefined') {
         AOS.refresh();
     }
 }
 
-// ปุ่ม filter
 filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
@@ -118,7 +107,6 @@ filterBtns.forEach(btn => {
     });
 });
 
-// โหลดเริ่มต้น
 displayProducts('all');
 
 
@@ -128,3 +116,4 @@ displayProducts('all');
 function toggleMenu() {
     document.getElementById('navMenu').classList.toggle('active');
 }
+
